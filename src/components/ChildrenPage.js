@@ -77,13 +77,13 @@ class ChildrenPage extends Component {
                   <div className="hour-day" onClick={() => this.hadleHourSelected("16")}>4pm</div>
                 </div>
                 { this.state.hour !== '' ? exactTime : null }
-                <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button>
-                <button onClick={onhandleCheckOut.bind(this)}>CHECK OUT</button>
-                {/* { selectedChild.checkinTime ?
-                  selectedChild.checkins[selectedChild.checkins.length - 1].checkoutTime ?
+                {/* <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button>
+                <button onClick={onhandleCheckOut.bind(this)}>CHECK OUT</button> */}
+                { selectedChild.checkinTime ?
+                  selectedChild.checkins[0].checkoutTime ?
                   <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button> : <button onClick={onhandleCheckOut.bind(this)}>CHECK OUT</button>
                   : <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button>
-                } */}
+                }
               </div>
             </div>
           </div>)}
