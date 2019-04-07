@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
 
 import CheckInPage from './CheckInPage';
 
@@ -26,16 +27,13 @@ class ChildrenPage extends Component {
 
   render(){
 
-    const { children, onhandleSelectChild, selectedChild, onhandleCheckIn, onhandleCheckOut } = this.props;
-
-    let currentDateTime = new Date();
+    const { children, onhandleSelectChild, selectedChild, onhandleCheckIn, onhandleCheckOut, checkedIn } = this.props;
 
     let lgClose = () => this.setState({ lgShow: false });
-    const ActionScreen = () => { selectedChild.checkins.checkoutTime < currentDateTime ? <CheckInPage /> : null };
 
-    const styleselectedChild = (
-      children.length !== 0 ? 'block' : 'none'
-    )
+    // const styleselectedChild = (
+    //   children.length !== 0 ? 'block' : 'none'
+    // )
 
     const exactTime = (
       <div className="col-md-5">
@@ -46,6 +44,9 @@ class ChildrenPage extends Component {
       </div>
     );
 
+    const checkinButton = <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button>; //<Button variant="success" onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</Button>; //
+    const checkoutButton = <button onClick={onhandleCheckOut.bind(this)}>CHECK OUT</button>; //<Button variant="danger" onClick={onhandleCheckOut.bind(this)}>CHECK OUT</Button>; //
+
     return(
       <div className="col-md-12">
 
@@ -53,7 +54,8 @@ class ChildrenPage extends Component {
           Large modal
         </Button> */}
         
-        <div className="select-video" style={{ display: styleselectedChild }}> 
+        <div className="select-video" > 
+        {/* //style={{ display: styleselectedChild }}>  */}
           {selectedChild && (<div id={selectedChild.childId}>
             <div className="title">{selectedChild.name.fullName}</div>
             <div className='div-col'>
@@ -61,11 +63,12 @@ class ChildrenPage extends Component {
                 <img src={selectedChild.image.large} alt={selectedChild.name.fullName} /> 
               </div>
             </div>
-            <div className='div-col'>
-              <div className="col-md-7">
-                <div className="label">Checked in: { selectedChild.checkedIn ? "Yes" : "No" }</div>
-                <div className="label">Birthday: {selectedChild.birthday}</div>
-                <div className="col-md-6">
+
+            <div className="infoText">Choose when {selectedChild.name.firstName} will be picked up: </div>
+            { !checkedIn ? 
+              <div className="col-md-2" style={{ display: 'inline-block' }}>
+                {/* <div className="label">Birthday: {selectedChild.birthday}</div> */}
+                {/* <div className="col-md-12"> */}
                   <div className="hour-day" onClick={() => this.hadleHourSelected("8")}>8am</div>
                   <div className="hour-day" onClick={() => this.hadleHourSelected("9")}>9am</div>
                   <div className="hour-day" onClick={() => this.hadleHourSelected("10")}>10am</div>
@@ -75,15 +78,17 @@ class ChildrenPage extends Component {
                   <div className="hour-day" onClick={() => this.hadleHourSelected("14")}>2pm</div>
                   <div className="hour-day" onClick={() => this.hadleHourSelected("15")}>3pm</div>
                   <div className="hour-day" onClick={() => this.hadleHourSelected("16")}>4pm</div>
-                </div>
-                { this.state.hour !== '' ? exactTime : null }
-                {/* <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button>
-                <button onClick={onhandleCheckOut.bind(this)}>CHECK OUT</button> */}
-                { selectedChild.checkinTime ?
-                  selectedChild.checkins[0].checkoutTime ?
-                  <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button> : <button onClick={onhandleCheckOut.bind(this)}>CHECK OUT</button>
-                  : <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button>
-                }
+                {/* </div> */}
+            </div> : null }
+            { !checkedIn ? 
+                <div className="col-md-2" style={{ display: 'inline-block' }}>
+                {/* <div className="col-md-12"> */}
+                  { this.state.hour !== '' ? exactTime : null }
+                {/* </div> */}
+            </div>: null }
+            <div className='div-col'>
+                <div className="col-md-3">
+                  { checkedIn ? checkoutButton : checkinButton }
               </div>
             </div>
           </div>)}

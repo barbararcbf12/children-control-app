@@ -13,6 +13,7 @@ Coding assessment task.
 * [React](https://facebook.github.io/react/) as the core infrastructure.
 * [Redux](https://github.com/reactjs/redux) for state management.
 * [Redux-saga](https://github.com/yelouafi/redux-saga) for handling async tasks with agility.
+* [React-bootstrap](https://react-bootstrap.github.io) for styling.
 
 # Running the application
 Clone this repository, navigate to its folder and run:

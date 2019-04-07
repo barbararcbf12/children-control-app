@@ -12,7 +12,7 @@ export class HomePage extends Component {
     this.handleCheckIn = this.handleCheckIn.bind(this);
     this.handleCheckOut = this.handleCheckOut.bind(this);
     this.state = { 
-      pickupTime: ''
+      checkedIn: ''
     };
   }
 
@@ -26,17 +26,29 @@ export class HomePage extends Component {
     }
   }
 
-  handleCheckIn(pickupTime) { //, pickupTime) {//pickupTime , this.state.pickupTime
-    console.log("Home pickupTime", pickupTime);
-    console.log("Home this.props.selectedChild", this.props.selectedChild);
+  handleCheckIn(pickupTime) { 
+    // console.log("Home pickupTime", pickupTime);
+    // console.log("Home this.props.selectedChild", this.props.selectedChild);
     if(this.props.selectedChild !== 0){
       this.props.dispatch(checkChildInAction(this.props.selectedChild, pickupTime));
     }
+    this.setState({ checkedIn: true });
+    console.log("handleCheckIn", this.state.checkedIn);
   }
 
   handleCheckOut() {
     if(this.props.selectedChild !== 0){
       this.props.dispatch(checkChildOutAction(this.props.selectedChild));
+    }
+    this.setState({ checkedIn: false });
+    console.log("handleCheckOut", this.state.checkedIn);
+  }
+
+  handleCheck(){
+    if( this.props.selectedChild.checkins.length !== 0 && this.props.selectedChild.checkins[0].checkoutTime === null ){ //this.props.selectedChild.checkinTime !== null || 
+        this.setState({ checkedIn: false });
+    }else{
+      this.setState({ checkedIn: true });
     }
   }
 
@@ -55,6 +67,7 @@ export class HomePage extends Component {
               onhandleSelectChild={this.handleSelectChild}
               onhandleCheckIn={this.handleCheckIn}
               onhandleCheckOut={this.handleCheckOut}
+              checkedIn={this.state.checkedIn}
             />
           </div> : 'loading ....' }
       </div>
