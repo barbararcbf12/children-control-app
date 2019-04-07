@@ -10,7 +10,7 @@ body {
   font-weight: bold;
   display: inline-block;
   text-align: left;
-  margin: 5px 0 2px 0;
+  margin: 5px 5px 2px 15px;
 }
 
 .label {
@@ -114,13 +114,30 @@ h3::after {
 }
 
 .btn {
-  margin: 0 5px;
+  margin: 10px 5px;
+  padding: 5px;
   height: 45px;
+  font-size: 14px;
+  color: white;
+  border: 1px solid grey;
+  border-radius: 5px;
+  width: 90%;
 }
 
-.btn-primary {
-  background-color: turquoise;
+.btn-checkin {
+  background-color: green;
 }
+
+.btn-checkout {
+  background-color: red;
+}
+
+
+/* button:hover{background-color:white;} */
+
+.hour-day:hover{background-color:orange;}
+
+.hour-day:focus{background-color:red;}
 
 .search-field {
   width: 80%;    
