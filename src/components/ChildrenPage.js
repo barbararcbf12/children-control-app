@@ -6,8 +6,10 @@ class ChildrenPage extends Component {
     super();
     this.state = { 
       hour: '' ,
-      pickupTime: ''
-    };
+      pickupTime: '',
+      // clicked_button: true
+  }
+    // this.changeButtonColor = this.changeButtonColor.bind(this);
   }
 
   hadlepickupTime(time) {
@@ -18,9 +20,15 @@ class ChildrenPage extends Component {
     this.setState({ hour: chosenHour });
   }
 
+  // changeButtonColor(){
+  //   this.setState({clicked_button: !this.state.clicked_button});
+  // }
+
   render(){
 
     const { children, onhandleSelectChild, selectedChild, onhandleCheckIn, onhandleCheckOut, checkedIn } = this.props;
+
+    let bgColor = this.state.clicked_button ? "orange" : "white";
 
     const exactTime = (
       <div className="col-md-5">
