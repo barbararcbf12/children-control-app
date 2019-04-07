@@ -1,50 +1,4 @@
-//Fetching data from laoLab's API and checking if resultant JSON's 
-//keys 'title', 'description' and ' tags' contain a string typed by the user
-// export const fetchChildrenGroup = (searchQuery) => {
-//   var SKINCOACHAPP_API_ENDPOINT = `http://video.skincoachapp.com/v1/_debug/`;
-
-//   return fetch(SKINCOACHAPP_API_ENDPOINT)
-//   .then(response => {
-//       return response.json();
-//     }).then(json => {
-//         let videos = [];
-//         json.map( x => {
-//           if(searchQuery !== ""){
-//             if(x.title.toLowerCase().includes(searchQuery.toLowerCase()) || x.description.toLowerCase().includes(searchQuery.toLowerCase())){ 
-//               videos.push(x);
-              
-//             }else{
-//               x.tags.map( y => {
-//                 if(y.toLowerCase() === searchQuery.toLowerCase()){
-//                   videos.push(x);
-//                 }
-//                 return videos;
-//               })
-//             }
-//             return videos;
-//           }
-//           else{
-//             videos = json;
-//             return videos;
-//           }
-//         });
-               
-//         return videos.map(({ id, active, title, runningTime, thumbUrl, videoUrl, description, browseable, category, baseTags }) =>
-//           ({
-//             id,
-//             active, 
-//             title, 
-//             runningTime, 
-//             thumbUrl,
-//             mediaUrl: videoUrl,
-//             description, 
-//             browseable, 
-//             category, 
-//             baseTags
-//           })
-//         );
-//       })
-//   };
+//Fetching data from Famly's API and checking if resultant JSON's 
 
   var accessToken = '234ffdb8-0889-4be3-b096-97ab1679752c';
   var groupId = '11fc220c-ebba-4e55-9346-cd1eed714620';
@@ -61,52 +15,76 @@
         }).then(json => { 
           console.log("json: " + json.children[0].childId);
           // return json;
-            return json.children.map(({ childId, name, birthday, image, checkedIn, pickupTime }) =>
+            return json.children.map(({ childId, name, birthday, image, checkinTime, pickupTime, checkins }) =>
               ({
                 childId,
                 name,
                 birthday,
                 image,
-                checkedIn,
-                pickupTime
+                checkinTime,
+                pickupTime,
+                checkins
               })
             );
           })
   };
 
 
-  export const checkInChild = ( childId, pickupTime ) => {
+  export const checkInChild = ( child, pickupTime ) => {
 
-    var FAMLY_API_POSTCHECKIN = `https://tryfamly.co/api/v2/children/${childId}/checkins?accessToken=${accessToken}`;
+    console.log("API child", child);
+    console.log("API pickupTime", pickupTime);
+
+    var FAMLY_API_POSTCHECKIN = `https://tryfamly.co/api/v2/children/${child.childId}/checkins`; 
   
     return fetch( FAMLY_API_POSTCHECKIN, {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
+        'Accept': 'application/json, text/plain, */*, application/x-www-form-urlencoded, multipart/form-data',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        checkedIn: true,
-        pickupTime: pickupTime
+        accessToken: accessToken,
+        pickupTime: pickupTime 
       })
     })
+    .then(response => {
+        console.log('response: ', response)        
+      if (response.ok) {
+          return response.json();
+        } else {
+           throw new Error('Something went wrong ...');
+        }
+      })
   
   };
   
-  
+
   export const checkOutChild = ( child ) => {
-  
-    var FAMLY_API_POSTCHECKOUT = `https://tryfamly.co/api/v2/children/${child.childId}/checkout?accessToken=${accessToken}`;
+
+    console.log("API OUT child", child);
+    console.log("API OUT pickupTime", pickupTime);
+
+    var FAMLY_API_POSTCHECKOUT = `https://tryfamly.co/api/v2/children/${child.childId}/checkout`; 
   
     return fetch( FAMLY_API_POSTCHECKOUT, {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
-        'Content-Type' : 'application/json'
+        'Accept': 'application/json, text/plain, */*, application/x-www-form-urlencoded, multipart/form-data',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        checkedIn: false
+        accessToken: accessToken
       })
     })
-  
-  };  
+    .then(response => {
+        console.log('response: ', response)        
+      if (response.ok) {
+          return response.json();
+        } else {
+           throw new Error('Something went wrong ...');
+        }
+      })
+  // return (response.status === 201);
+  };
+

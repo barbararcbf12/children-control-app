@@ -11,9 +11,10 @@ export const searchChildAction = (payload) => ({
 });
 
 
-export const checkChildInAction = (child) => ({
+export const checkChildInAction = (child, pickupTime) => ({
   type: types.CHECKIN_CHILD,
-  child
+  child,
+  pickupTime
 });
 
 export const checkChildOutAction = (child) => ({

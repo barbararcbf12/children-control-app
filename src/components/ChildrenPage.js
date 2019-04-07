@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import CheckInPage from './CheckInPage';
+
 // const ChildrenPage = ({ children, onhandleSelectChild, selectedChild, onhandleCheckIn, onhandleCheckOut }) => { 
 
 class ChildrenPage extends Component {
@@ -9,7 +11,8 @@ class ChildrenPage extends Component {
     this.state = { 
       hour: '' ,
       pickupTime: '',
-      selected: 'false'
+      selected: 'false',
+      lgShow: false
     };
   }
 
@@ -24,8 +27,11 @@ class ChildrenPage extends Component {
   render(){
 
     const { children, onhandleSelectChild, selectedChild, onhandleCheckIn, onhandleCheckOut } = this.props;
-    console.log("hour", this.state.hour);
-    console.log("pickupTime", this.state.pickupTime);
+
+    let currentDateTime = new Date();
+
+    let lgClose = () => this.setState({ lgShow: false });
+    const ActionScreen = () => { selectedChild.checkins.checkoutTime < currentDateTime ? <CheckInPage /> : null };
 
     const styleselectedChild = (
       children.length !== 0 ? 'block' : 'none'
@@ -42,6 +48,11 @@ class ChildrenPage extends Component {
 
     return(
       <div className="col-md-12">
+
+        {/* <Button onClick={() => this.setState({ lgShow: true })}>
+          Large modal
+        </Button> */}
+        
         <div className="select-video" style={{ display: styleselectedChild }}> 
           {selectedChild && (<div id={selectedChild.childId}>
             <div className="title">{selectedChild.name.fullName}</div>
@@ -66,8 +77,14 @@ class ChildrenPage extends Component {
                   <div className="hour-day" onClick={() => this.hadleHourSelected("16")}>4pm</div>
                 </div>
                 { this.state.hour !== '' ? exactTime : null }
+                <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button>
+                <button onClick={onhandleCheckOut.bind(this)}>CHECK OUT</button>
+                {/* { selectedChild.checkinTime ?
+                  selectedChild.checkins[selectedChild.checkins.length - 1].checkoutTime ?
+                  <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button> : <button onClick={onhandleCheckOut.bind(this)}>CHECK OUT</button>
+                  : <button onClick={onhandleCheckIn.bind(this, this.state.pickupTime)}>CHECK IN</button>
+                } */}
               </div>
-              <button onClick={onhandleCheckIn.bind(this, selectedChild.childId, this.state.pickupTime)}>CHECK IN</button>
             </div>
           </div>)}
         </div>

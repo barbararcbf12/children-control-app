@@ -8,12 +8,9 @@ import '../styles/style.css';
 export class HomePage extends Component {
   constructor() {
     super();
-    // this.handleSearch = this.handleSearch.bind(this);
-    // this.handleClearSearch = this.handleClearSearch.bind(this);
     this.handleSelectChild = this.handleSelectChild.bind(this);
-    // this.handleTextChange = this.handleTextChange.bind(this);
-    // this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleCheckIn = this.handleCheckIn.bind(this);
+    this.handleCheckOut = this.handleCheckOut.bind(this);
     this.state = { 
       pickupTime: ''
     };
@@ -23,65 +20,29 @@ export class HomePage extends Component {
     this.props.dispatch(searchChildAction(''));
   }
 
-  handleSelectChild(selectedChild) {
+  handleSelectChild(selectedChild) { 
     if(this.props.children !== 0){
       this.props.dispatch(selectChildAction(selectedChild));
     }
   }
 
-  // handleTextChange(event){
-  //   event.preventDefault();
-  //   this.setState({ textNew: this.query.value });
-  // }
-
-  // handleSearch(event) {
-  //   event.preventDefault();
-  //   this.setState({ textSubmitted: this.state.textNew });
-  //   if (this.query !== null) {
-  //     this.props.dispatch(searchChildAction(this.query.value));
-  //   }
-  // }
-
-  // handleKeyPress(target) {
-  //   if(target.charCode===13){
-  //     this.setState({ textSubmitted: this.state.textNew });
-  //     if (this.query !== null) {
-  //       this.props.dispatch(searchChildAction(this.query.value));
-  //     }    
-  //   } 
-  // }
-
-  // handleClearSearch(event) {
-  //   event.preventDefault();
-  //   if (this.query !== null) {
-  //       this.props.dispatch(searchChildAction(''));
-  //       this.query.value = '';
-  //   }
-  // }
-
-  handleCheckIn(selectedChild, pickupTime) {
-    if(this.props.children !== 0){
-      this.props.dispatch(checkChildInAction(selectedChild, pickupTime));
+  handleCheckIn(pickupTime) { //, pickupTime) {//pickupTime , this.state.pickupTime
+    console.log("Home pickupTime", pickupTime);
+    console.log("Home this.props.selectedChild", this.props.selectedChild);
+    if(this.props.selectedChild !== 0){
+      this.props.dispatch(checkChildInAction(this.props.selectedChild, pickupTime));
     }
   }
 
-  handleCheckOut(selectedChild) {
-    if(this.props.children !== 0){
-      this.props.dispatch(checkChildOutAction(selectedChild));
+  handleCheckOut() {
+    if(this.props.selectedChild !== 0){
+      this.props.dispatch(checkChildOutAction(this.props.selectedChild));
     }
   }
 
   render() {
 
     const { children, selectedChild } = this.props;
-
-    // const disabledButton = (
-    //   <input
-    //     type="submit"
-    //     className="btn btn-sec"
-    //     value="Search Library"
-    //   />
-    // );
     
     console.log('children', children);
 
