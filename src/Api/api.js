@@ -63,7 +63,6 @@
   export const checkOutChild = ( child ) => {
 
     console.log("API OUT child", child);
-    console.log("API OUT pickupTime", pickupTime);
 
     var FAMLY_API_POSTCHECKOUT = `https://tryfamly.co/api/v2/children/${child.childId}/checkout`; 
   
